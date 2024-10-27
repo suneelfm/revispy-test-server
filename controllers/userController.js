@@ -142,3 +142,24 @@ export const verifyEmail = async (req, res, next) => {
     next(error.message);
   }
 };
+
+export const validateUser = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  if (
+    authHeader === null ||
+    authHeader === "undefined" ||
+    authHeader === undefined
+  )
+    return res.status(401).send({ message: "Please login to start" });
+
+  jwt.verify(authHeader, process.env.JWT_SECRET, (error, user) => {
+    if (error)
+      return res.status(403).send({
+        message: "The session has expired, Please login again.",
+        error,
+      });
+
+    req.user = user;
+    next();
+  });
+};
