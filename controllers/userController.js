@@ -115,7 +115,6 @@ export const verifyEmail = async (req, res, next) => {
           message: "Invalid otp.",
           error,
         });
-      console.log(data.otp, req.body.otp);
 
       if (data.otp === req.body.otp) {
         Account.findOneAndUpdate(

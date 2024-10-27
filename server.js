@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import { database } from "./configure/index.js";
 import authRoute from "./routes/authRoutes.js";
+import protectedRoutes from "./routes/protectedRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/auth", authRoute);
+app.use("/", protectedRoutes);
 
 database.on("error", console.error.bind(console, "MongoDB connection error:"));
 
